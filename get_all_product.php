@@ -2,7 +2,7 @@
 require "config.php";
 $query="SELECT a.id_product, a.name_product, a.poto_product, a.price_product, a.product_material, a.product_dimensions, 
 a.year_of_creation, a.product_description, a.note_products, b.name_catalog 
-FROM products a JOIN products_catalog b ON a.id_catalog=b.id_catalog";
+FROM products a JOIN products_catalog b ON a.id_catalog=b.id_catalog ORDER BY a.id_product DESC";
 $data=mysqli_query($conn,$query);
 $mangSP= array();
 

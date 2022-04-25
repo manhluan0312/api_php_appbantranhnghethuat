@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2022 at 03:24 PM
+-- Generation Time: Apr 25, 2022 at 02:36 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -24,6 +24,72 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id_admin` int(11) NOT NULL COMMENT 'Mã admin',
+  `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên đăng nhập',
+  `name_admin` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên admin',
+  `Password` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Password admin',
+  `poto_admin` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ảnh của admin',
+  `email` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Email của admin',
+  `Phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Số điện thoại admin',
+  `Address` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Địa chỉ của admin'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `id_customer` int(11) NOT NULL COMMENT 'Mã khách hàng',
+  `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên đăng nhập của khách hàng',
+  `name_customer` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên đầy đủ của khách hàng',
+  `poto_customer` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ảnh của khách hàng',
+  `email` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Email của khách hàng',
+  `Password` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Mật khẩu của khách hàng ',
+  `Phone` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Số điện thoại của khách hàng',
+  `Address` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Địa chỉ của khách hàng'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order`
+--
+
+CREATE TABLE `order` (
+  `id_order` int(11) NOT NULL COMMENT 'Mã đơn hàng',
+  `id_customer` int(11) NOT NULL COMMENT 'Mã khách hàng ',
+  `Payments` enum('Trả tiền mặt') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên hình thức thanh toán',
+  `Order_date` datetime NOT NULL COMMENT 'Ngày đặt hàng',
+  `Delivery_address` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Địa chỉ giao hàng',
+  `Delivery_date` date NOT NULL COMMENT 'Ngày giao hàng',
+  `Note` text COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ghi chú đơn hàng',
+  `Total_money` float NOT NULL COMMENT 'Tổng tiền của đơn hàng',
+  `Delivery_status` enum('Chưa xử lý','Đang xử lý','Đã xử lý') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tìng trạng đơn hàng'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order details`
+--
+
+CREATE TABLE `order details` (
+  `id_order_detail` int(11) NOT NULL COMMENT 'Mã chi tiết đơn hàng',
+  `id_product` int(11) NOT NULL COMMENT 'Mã sản phẩm',
+  `id_order` int(11) NOT NULL COMMENT 'Mã đơn hàng',
+  `Amount` int(11) NOT NULL COMMENT 'Số lượng sản phẩm trong đơn hàng',
+  `Price` float NOT NULL COMMENT 'Giá của từng sản phẩm trong đơn hàng'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
@@ -31,10 +97,10 @@ CREATE TABLE `products` (
   `id_product` int(11) NOT NULL COMMENT 'Mã sản phẩm',
   `name_product` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên sản phẩm',
   `poto_product` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Ảnh sản phẩm',
-  `price_product` int(100) NOT NULL COMMENT 'Giá sản phẩm ',
+  `price_product` float NOT NULL COMMENT 'Giá sản phẩm ',
   `product_material` varchar(30) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Chất liệu của sản phẩm',
   `product_dimensions` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Kích thước của sản phẩm',
-  `year_of_creation` int(4) NOT NULL COMMENT 'Năm sáng tác sản phẩm',
+  `year_of_creation` year(4) NOT NULL COMMENT 'Năm sáng tác sản phẩm',
   `product_description` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Mô tả sản phẩm',
   `note_products` text COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ghi chú của sản phẩm',
   `id_catalog` int(11) NOT NULL COMMENT 'Mã danh mục sản phẩm'
@@ -45,7 +111,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id_product`, `name_product`, `poto_product`, `price_product`, `product_material`, `product_dimensions`, `year_of_creation`, `product_description`, `note_products`, `id_catalog`) VALUES
-(1, 'Bình minh trên biển', 'tranhphongcanhbien.jpeg', 3500000, 'Acrylic', '1000 x 1200cm', 2019, 'Một bức tranh về đề tài biển của mình, cảm hứng của mình về những hôm thức dậy sớm đón bình minh trên biển.', NULL, 6),
+(1, 'Bình minh trên biển', 'binhminhtrenbien.jpeg', 3500000, 'Acrylic', '1000 x 1200cm', 2019, 'Một bức tranh về đề tài biển của mình, cảm hứng của mình về những hôm thức dậy sớm đón bình minh trên biển.', NULL, 6),
 (2, 'Tháng 3 Làng Là', 'thangbalangla.jpg', 7500000, 'Sơn dầu', ' 70x 90 cm', 2020, 'Tranh được vẽ trong chuyến trực họa tháng 3 tại Tuyên Quang', NULL, 8),
 (4, 'Vườn quê', 'vuonque.jpg', 12000000, 'Acrylic', '80 x 100cm ', 2022, 'Vẽ về cảnh một góc vườn quê ngoại với hình ảnh chính là các bé gái đang cho đàn gà ăn trong khu vườn quê bình dị và thân thương, có bụi chuối đã trổ buồng, mái tường quê cũ kỉ toác nứt rõ vết gạch loang lỗ. Từng tia nắng sớm mai chiếu rọi hắt qua từng khóm lá, ngọn cỏ khiến cho khu vườn trở nên ấm áp. Tác phẩm nằm trong Series “Kí ức tuổi thơ”.\r\n', NULL, 8),
 (5, 'Khúc sông quê', 'khucsongque.jpg', 7000000, 'Acrylic', '60 x 80cm', 2021, 'Tranh diễn tả một khúc sông của làng quê trong ánh nắng ban mai vàng rực rỡ, ấm áp. Dòng sông lóng lánh những tia nắng ôm ấp tiếng cười khúc khích trẻ thơ nô đùa trên sóng nước. Trên bến sông, có con trâu đang tắm mát dưới làn sóng nước cùng chú bé cưỡi mình trên lưng trâu. Phía xa là đàn vịt bơi lội tung tăng dưới dòng nước. Tất cả tạo nên một  bức tranh tuyệt đẹp về khúc sông quê.', NULL, 8),
@@ -131,6 +197,33 @@ INSERT INTO `slider` (`id_slider`, `titile_sider`, `image_slider`) VALUES
 --
 
 --
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id_admin`);
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id_customer`);
+
+--
+-- Indexes for table `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`id_order`),
+  ADD KEY `id_customer` (`id_customer`);
+
+--
+-- Indexes for table `order details`
+--
+ALTER TABLE `order details`
+  ADD PRIMARY KEY (`id_order_detail`),
+  ADD KEY `id_product` (`id_product`,`id_order`),
+  ADD KEY `id_order` (`id_order`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -155,6 +248,30 @@ ALTER TABLE `slider`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã admin';
+
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã khách hàng';
+
+--
+-- AUTO_INCREMENT for table `order`
+--
+ALTER TABLE `order`
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã đơn hàng';
+
+--
+-- AUTO_INCREMENT for table `order details`
+--
+ALTER TABLE `order details`
+  MODIFY `id_order_detail` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã chi tiết đơn hàng';
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
@@ -175,6 +292,19 @@ ALTER TABLE `slider`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `order`
+--
+ALTER TABLE `order`
+  ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `customer` (`id_customer`);
+
+--
+-- Constraints for table `order details`
+--
+ALTER TABLE `order details`
+  ADD CONSTRAINT `order details_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `products` (`id_product`),
+  ADD CONSTRAINT `order details_ibfk_2` FOREIGN KEY (`id_order`) REFERENCES `order` (`id_order`);
 
 --
 -- Constraints for table `products`

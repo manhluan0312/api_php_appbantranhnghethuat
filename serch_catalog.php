@@ -2,7 +2,10 @@
 require "config.php";
 if($_SERVER['REQUEST_METHOD']=='POST'){
     $name_catalog = $_POST['name_catalog'];
-$query="SELECT * FROM products_catalog WHERE name_catalog LIKE '%$name_catalog%'";
+    if(empty($name_catalog)){
+
+    }else{
+      $query="SELECT * FROM products_catalog WHERE name_catalog LIKE '%$name_catalog%'";
 $data=mysqli_query($conn,$query);
 $mangDMSP= array();
 }
@@ -21,5 +24,8 @@ while ($row=mysqli_fetch_assoc($data)){
 
 }
 echo json_encode($mangDMSP);
+
+    }
+
 
 ?>
