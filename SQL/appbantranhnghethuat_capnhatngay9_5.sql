@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 25, 2022 at 02:36 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th5 09, 2022 lúc 02:14 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,30 +18,37 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `appbantranhnghethuat`
+-- Cơ sở dữ liệu: `appbantranhnghethuat`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Cấu trúc bảng cho bảng `admin`
 --
 
 CREATE TABLE `admin` (
   `id_admin` int(11) NOT NULL COMMENT 'Mã admin',
   `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên đăng nhập',
   `name_admin` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên admin',
-  `Password` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Password admin',
+  `Password_admin` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Password admin',
   `poto_admin` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ảnh của admin',
   `email` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Email của admin',
   `Phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Số điện thoại admin',
   `Address` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Địa chỉ của admin'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `admin`
+--
+
+INSERT INTO `admin` (`id_admin`, `username`, `name_admin`, `Password_admin`, `poto_admin`, `email`, `Phone`, `Address`) VALUES
+(1, 'Admin_xuan_0322', 'Nguyễn Văn Xuân', 'xuan0312', NULL, NULL, '0322456547', NULL);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customer`
+-- Cấu trúc bảng cho bảng `customer`
 --
 
 CREATE TABLE `customer` (
@@ -50,15 +57,25 @@ CREATE TABLE `customer` (
   `name_customer` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên đầy đủ của khách hàng',
   `poto_customer` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ảnh của khách hàng',
   `email` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Email của khách hàng',
-  `Password` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Mật khẩu của khách hàng ',
+  `Password_customer` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Mật khẩu của khách hàng ',
   `Phone` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Số điện thoại của khách hàng',
-  `Address` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Địa chỉ của khách hàng'
+  `Address_customer` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Địa chỉ của khách hàng'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `customer`
+--
+
+INSERT INTO `customer` (`id_customer`, `username`, `name_customer`, `poto_customer`, `email`, `Password_customer`, `Phone`, `Address_customer`) VALUES
+(1, 'luan0312', 'Nguyễn Thành Luân', NULL, 'manhluan1234@gmail.com', 'luan1234', '0325514582', 'Ứng Hòa ,Hà Nội'),
+(3, 'tien0312', 'Nguyen Van Tien', NULL, NULL, 'tien123456', '0312554788', 'Thanh Oai,Ha Noi'),
+(4, 'nam_1234', 'Dang Van Nam', NULL, NULL, 'nam1234', '0312547895', 'Thach that ,Ha Noi'),
+(5, 'hoang123', 'Nguyen Van Hoang', NULL, NULL, 'hoang12345', '0525555366', 'Thach That,Ha Noi');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order`
+-- Cấu trúc bảng cho bảng `order`
 --
 
 CREATE TABLE `order` (
@@ -67,19 +84,32 @@ CREATE TABLE `order` (
   `Payments` enum('Trả tiền mặt') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên hình thức thanh toán',
   `Order_date` datetime NOT NULL COMMENT 'Ngày đặt hàng',
   `Delivery_address` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Địa chỉ giao hàng',
-  `Delivery_date` date NOT NULL COMMENT 'Ngày giao hàng',
   `Note` text COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ghi chú đơn hàng',
   `Total_money` float NOT NULL COMMENT 'Tổng tiền của đơn hàng',
-  `Delivery_status` enum('Chưa xử lý','Đang xử lý','Đã xử lý') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tìng trạng đơn hàng'
+  `Delivery_status` enum('Đang chờ xử lý','Đang xử lý','Đã xử lý') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Đang chờ xử lý' COMMENT 'Tìng trạng đơn hàng'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `order`
+--
+
+INSERT INTO `order` (`id_order`, `id_customer`, `Payments`, `Order_date`, `Delivery_address`, `Note`, `Total_money`, `Delivery_status`) VALUES
+(4, 1, 'Trả tiền mặt', '2022-05-04 14:54:16', '24 Phố Trung Kính', NULL, 44000000, 'Đang chờ xử lý'),
+(5, 3, 'Trả tiền mặt', '2022-05-04 14:59:28', '24 Phố Nguyễn Thái Học', '', 1000000, ''),
+(10, 1, 'Trả tiền mặt', '2022-05-04 18:24:23', '24 Phố Trưng Trắc', 'Giao hàng sớm nhé', 250000, ''),
+(24, 1, 'Trả tiền mặt', '2022-05-05 10:54:35', '24 Phố Trưng Trắc,Hai Ba trung', 'Giao hàng sớm nhé', 280000, ''),
+(25, 1, 'Trả tiền mặt', '2022-05-05 11:12:17', '24 Phố Trưng Trắc,Hai Ba Trung', 'Giao hàng sớm nhé', 280000, ''),
+(27, 1, 'Trả tiền mặt', '2022-05-05 11:18:57', '24 Phố Trưng Trắc,Hai Ba Trung', 'Giao hàng sớm nhé', 280000, ''),
+(29, 1, 'Trả tiền mặt', '2022-05-05 11:50:04', '24 Phố Trưng Trắc,Hai Ba Trung', 'Giao hàng sớm nhé', 270000, ''),
+(33, 1, 'Trả tiền mặt', '2022-05-05 12:00:37', '24 Phố Trưng Trắc,Hai Ba Trung', 'Giao hàng sớm nhé', 270000, '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order details`
+-- Cấu trúc bảng cho bảng `order_details`
 --
 
-CREATE TABLE `order details` (
+CREATE TABLE `order_details` (
   `id_order_detail` int(11) NOT NULL COMMENT 'Mã chi tiết đơn hàng',
   `id_product` int(11) NOT NULL COMMENT 'Mã sản phẩm',
   `id_order` int(11) NOT NULL COMMENT 'Mã đơn hàng',
@@ -87,10 +117,18 @@ CREATE TABLE `order details` (
   `Price` float NOT NULL COMMENT 'Giá của từng sản phẩm trong đơn hàng'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `order_details`
+--
+
+INSERT INTO `order_details` (`id_order_detail`, `id_product`, `id_order`, `Amount`, `Price`) VALUES
+(1, 29, 4, 1, 14000000),
+(2, 28, 4, 2, 15000000);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Cấu trúc bảng cho bảng `products`
 --
 
 CREATE TABLE `products` (
@@ -107,7 +145,7 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `products`
+-- Đang đổ dữ liệu cho bảng `products`
 --
 
 INSERT INTO `products` (`id_product`, `name_product`, `poto_product`, `price_product`, `product_material`, `product_dimensions`, `year_of_creation`, `product_description`, `note_products`, `id_catalog`) VALUES
@@ -143,7 +181,7 @@ INSERT INTO `products` (`id_product`, `name_product`, `poto_product`, `price_pro
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products_catalog`
+-- Cấu trúc bảng cho bảng `products_catalog`
 --
 
 CREATE TABLE `products_catalog` (
@@ -152,7 +190,7 @@ CREATE TABLE `products_catalog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `products_catalog`
+-- Đang đổ dữ liệu cho bảng `products_catalog`
 --
 
 INSERT INTO `products_catalog` (`id_catalog`, `name_catalog`) VALUES
@@ -169,12 +207,13 @@ INSERT INTO `products_catalog` (`id_catalog`, `name_catalog`) VALUES
 (15, 'Tranh Khắc Gỗ'),
 (16, 'Tranh Hoa Sen'),
 (17, 'Tranh Hoa Hồng'),
-(18, 'Tranh Hoa Mẫu Đơn');
+(18, 'Tranh Hoa Mẫu Đơn'),
+(22, 'Tranh Tinh Yeu');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `slider`
+-- Cấu trúc bảng cho bảng `slider`
 --
 
 CREATE TABLE `slider` (
@@ -184,7 +223,7 @@ CREATE TABLE `slider` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `slider`
+-- Đang đổ dữ liệu cho bảng `slider`
 --
 
 INSERT INTO `slider` (`id_slider`, `titile_sider`, `image_slider`) VALUES
@@ -193,38 +232,40 @@ INSERT INTO `slider` (`id_slider`, `titile_sider`, `image_slider`) VALUES
 (3, 'Tranh thêu', 'tranh_theu_chu_thap_slider.jpg');
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `admin`
+-- Chỉ mục cho bảng `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id_admin`);
+  ADD PRIMARY KEY (`id_admin`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indexes for table `customer`
+-- Chỉ mục cho bảng `customer`
 --
 ALTER TABLE `customer`
-  ADD PRIMARY KEY (`id_customer`);
+  ADD PRIMARY KEY (`id_customer`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indexes for table `order`
+-- Chỉ mục cho bảng `order`
 --
 ALTER TABLE `order`
   ADD PRIMARY KEY (`id_order`),
   ADD KEY `id_customer` (`id_customer`);
 
 --
--- Indexes for table `order details`
+-- Chỉ mục cho bảng `order_details`
 --
-ALTER TABLE `order details`
+ALTER TABLE `order_details`
   ADD PRIMARY KEY (`id_order_detail`),
   ADD KEY `id_product` (`id_product`,`id_order`),
   ADD KEY `id_order` (`id_order`);
 
 --
--- Indexes for table `products`
+-- Chỉ mục cho bảng `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id_product`),
@@ -232,82 +273,82 @@ ALTER TABLE `products`
   ADD KEY `id_catalog_2` (`id_catalog`);
 
 --
--- Indexes for table `products_catalog`
+-- Chỉ mục cho bảng `products_catalog`
 --
 ALTER TABLE `products_catalog`
   ADD PRIMARY KEY (`id_catalog`);
 
 --
--- Indexes for table `slider`
+-- Chỉ mục cho bảng `slider`
 --
 ALTER TABLE `slider`
   ADD PRIMARY KEY (`id_slider`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT cho bảng `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã admin';
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã admin', AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `customer`
+-- AUTO_INCREMENT cho bảng `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã khách hàng';
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã khách hàng', AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `order`
+-- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã đơn hàng';
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã đơn hàng', AUTO_INCREMENT=36;
 
 --
--- AUTO_INCREMENT for table `order details`
+-- AUTO_INCREMENT cho bảng `order_details`
 --
-ALTER TABLE `order details`
-  MODIFY `id_order_detail` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã chi tiết đơn hàng';
+ALTER TABLE `order_details`
+  MODIFY `id_order_detail` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã chi tiết đơn hàng', AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `products`
+-- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
   MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã sản phẩm', AUTO_INCREMENT=34;
 
 --
--- AUTO_INCREMENT for table `products_catalog`
+-- AUTO_INCREMENT cho bảng `products_catalog`
 --
 ALTER TABLE `products_catalog`
-  MODIFY `id_catalog` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã danh mục', AUTO_INCREMENT=19;
+  MODIFY `id_catalog` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã danh mục', AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT for table `slider`
+-- AUTO_INCREMENT cho bảng `slider`
 --
 ALTER TABLE `slider`
   MODIFY `id_slider` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Mã Slider', AUTO_INCREMENT=4;
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `order`
+-- Các ràng buộc cho bảng `order`
 --
 ALTER TABLE `order`
   ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `customer` (`id_customer`);
 
 --
--- Constraints for table `order details`
+-- Các ràng buộc cho bảng `order_details`
 --
-ALTER TABLE `order details`
-  ADD CONSTRAINT `order details_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `products` (`id_product`),
-  ADD CONSTRAINT `order details_ibfk_2` FOREIGN KEY (`id_order`) REFERENCES `order` (`id_order`);
+ALTER TABLE `order_details`
+  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `products` (`id_product`),
+  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`id_order`) REFERENCES `order` (`id_order`);
 
 --
--- Constraints for table `products`
+-- Các ràng buộc cho bảng `products`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`id_catalog`) REFERENCES `products_catalog` (`id_catalog`);

@@ -1,6 +1,6 @@
 <?php
 require "config.php";
-$query="SELECT * FROM products_catalog";
+$query="SELECT * FROM products_catalog ORDER BY id_catalog DESC";
 $data=mysqli_query($conn,$query);
 $mangDMSP= array();
 
