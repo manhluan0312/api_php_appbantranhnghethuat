@@ -9,11 +9,11 @@
     $Total_money = $_POST['Total_money'];
     $chitiet =$_POST['chitiet'];
   }
-    $queryOrder ="INSERT INTO `orders`(`id_order`, `id_customer`, `Payments`, `Order_date`, `Delivery_address`, `Note`, `Total_money`, `Delivery_status`) 
-    VALUES (null,'$id_customer','$Payments',NOW(),'$Delivery_address','$Note',' $Total_money','Đang chờ xử lý')";
+    $queryOrder ="INSERT INTO orders(`id_order`, `id_customer`, `Payments`, `Order_date`, `Delivery_address`, `Note`, `Total_money`, `Delivery_status`) 
+    VALUES (null,'".$id_customer."','$Payments',NOW(),'$Delivery_address','$Note','$Total_money','Đang chờ xử lý')";
     
     $data=mysqli_query($conn,$queryOrder);
-  
+    $data=array();
     if($data){
       $queryOrderID="SELECT id_orders as iddonhang FROM `orders`WHERE id_customer ='$id_customer' ORDER BY id_order DESC LIMIT 1";
       
@@ -21,13 +21,13 @@
       $data=mysqli_query($conn,$queryOrderID);
 
       while($row=mysqli_fetch_assoc($data)){
-        $iddonhang =$row;
+        $iddonhang =($row);
       }
         if(!empty($result)){
           //co don hang
           $chitiet=json_decode($chitiet,true);
           
-          foreach ($chitiet as $key => $value){
+          foreach ($chitiet as $value){
             $truyvan ="INSERT INTO `order details`(`id_order_detail`, `id_product`, `id_order`, `Amount`, `Price`) 
             VALUES (null,'".$value['idsp']."','". $iddonhang['iddonhang']."','".$value['soluongsanpham']."','".$value['giasanpham']."')";
             echo $truyvan;
@@ -49,4 +49,5 @@
         $data["success"]="0";
         $data["message"]="error";
         mysqli_close($conn);
+      }
         ?>
