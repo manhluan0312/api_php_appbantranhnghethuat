@@ -13,8 +13,11 @@ if($_SERVER['REQUEST_METHOD'] =='POST'){
 
     require_once'config.php';
 
+    $file_name="anh_SP".rand().".jpg";
+    file_put_contents("image/Products/".$file_name,base64_decode($poto_product));//sẽ ghi nội dung vào file truyền vào
+
     $sqli="INSERT INTO `products`(`id_product`, `name_product`, `poto_product`, `price_product`, `product_material`, `product_dimensions`, `year_of_creation`, `product_description`, `note_products`, `id_catalog`) 
-    VALUES (null,'$name_product','$poto_product','$price_product','$product_material','$product_dimensions','$year_of_creation','$product_description','$note_products','$id_catalog')";
+    VALUES (null,'$name_product','$file_name','$price_product','$product_material','$product_dimensions','$year_of_creation','$product_description','$note_products','$id_catalog')";
 
     if(mysqli_query($conn,$sqli))
     {

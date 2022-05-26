@@ -1,13 +1,13 @@
 <?php
 require "config.php";
 if($_SERVER['REQUEST_METHOD']=='POST'){
-    $id_customer=$_POST['id_customer']; 
+    $id=$_POST['id']; 
     $photo=$_POST['photo'];
 }
-    $file_name="IMG".rand().".jpg";
-    file_put_contents("upload/".$file_name,base64_decode($photo));//sẽ ghi nội dung vào file truyền vào
+    $file_name="IMG_anh_admin".rand().".jpg";
+    file_put_contents("upload/".$file_name,base64_decode($photo));
 
-    $query="UPDATE customer SET poto_customer='$file_name' WHERE id_customer='$id_customer'";
+    $query="UPDATE admin SET poto_admin ='$file_name' WHERE id_admin='$id'";
 
     if(mysqli_query($conn,$query)){
     $result["success"]="1";
